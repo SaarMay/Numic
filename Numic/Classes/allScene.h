@@ -10,7 +10,7 @@
 //#include "HelloScene.h"
 //#include "StartScene.h"
 #include "GameScene.h"
-#include "GamePauseScene.h"
+//#include "GamePauseScene.h"
 //#include "testScene.h"
 //#include "AboutScene.h"
 //#include "RankingScene.h"
