@@ -240,8 +240,8 @@ bool gameLayer::init()
 	this->setSlashObj();
 	this->addChild(slashObj);
 
-	auto pauseBtn = MenuItemImage("pauseBtn.png","pauseBtn.png",
-								CC_CALLBACK_1(gameLayer::pauseBtnCallBack, this));
+	//auto pauseBtn = MenuItemImage("pauseBtn.png","pauseBtn.png",
+	//							CC_CALLBACK_1(gameLayer::pauseBtnCallBack, this));
 
 	this->setTarget(this->tar[1], this->tar[0]);
 	this->setScore();
@@ -632,8 +632,8 @@ void gameLayer::setTimer(float dt)
 		this->addChild(tup, 9, 319);
 
 		// Enter the game ending scene
-		Director::getInstance()->replaceScene(
-			TransitionCrossFade::create(1.0f, EndingScene::scene());
+		//Director::getInstance()->replaceScene(
+			//TransitionCrossFade::create(1.0f, EndingScene::scene());
 	}
 
 	stringstream ss;
@@ -859,7 +859,7 @@ bool gameBgLayer::init()
 	return true;
 }
 
-void gameLayer::_pauseBtnCallBack(cocos2d::Ref* pSender)
-{
-	Director::getInstance()->pushScene(pauseScene::scene());
-}
+//void gameLayer::_pauseBtnCallBack(cocos2d::Ref* pSender)
+//{
+//	Director::getInstance()->pushScene(pauseScene::scene());
+//}
