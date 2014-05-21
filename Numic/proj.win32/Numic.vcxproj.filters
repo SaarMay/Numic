@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="win32">
+      <UniqueIdentifier>{84a8ebd7-7cf0-47f6-b75e-d441df67da40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes">
+      <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{715254bc-d70b-4ec5-bf29-467dd3ace079}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource\GameScene">
+      <UniqueIdentifier>{ed37b926-79bd-45c2-87f4-0ff45be33f04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource\SoundEffect">
+      <UniqueIdentifier>{1673246d-794a-445b-a2e2-67592ae1e5b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource\Buttons">
+      <UniqueIdentifier>{18d2cb2b-78e1-4c40-8fe4-69f9ae9a3675}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AppDelegate.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameScene.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePauseScene.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="main.h">
+      <Filter>win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AppDelegate.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\allScene.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameScene.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePauseScene.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="game.rc">
+      <Filter>resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Resources\grossini.png">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\remio.png">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\numFrame.png">
+      <Filter>resource\GameScene</Filter>
+    </Image>
+    <Image Include="..\Resources\timeUp.png">
+      <Filter>resource\GameScene</Filter>
+    </Image>
+    <Image Include="..\Resources\GameScene\targetBox.png">
+      <Filter>resource\GameScene</Filter>
+    </Image>
+    <Image Include="..\Resources\GameScene\targetBar.png">
+      <Filter>resource\GameScene</Filter>
+    </Image>
+    <Image Include="..\Resources\GameScene\gameBg.png">
+      <Filter>resource\GameScene</Filter>
+    </Image>
+    <Image Include="..\Resources\Buttons\backBtn.png">
+      <Filter>resource\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Buttons\aboutBtn.png">
+      <Filter>resource\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Buttons\musicBtn.png">
+      <Filter>resource\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Buttons\rankBtn.png">
+      <Filter>resource\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Buttons\ruleBtn.png">
+      <Filter>resource\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Buttons\startBtn.png">
+      <Filter>resource\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\rankBgSprite.png">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\helloBgSprite.png">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="..\Resources\startBgSprite.png">
+      <Filter>resource</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Resources\numFrame.plist">
+      <Filter>resource\GameScene</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\Resources\SoundEffect\GameBgMusic.mp3">
+      <Filter>resource\SoundEffect</Filter>
+    </Media>
+    <Media Include="..\Resources\SoundEffect\HelloBgMusic.mp3">
+      <Filter>resource\SoundEffect</Filter>
+    </Media>
+    <Media Include="..\Resources\SoundEffect\StartBgMusic.mp3">
+      <Filter>resource\SoundEffect</Filter>
+    </Media>
+  </ItemGroup>
+</Project>
