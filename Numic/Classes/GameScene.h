@@ -67,6 +67,7 @@ private:
 	bool _isInTheMiddle(float x, float x1, float x2);
 	Point* objShape;				// Different objShape
 	int shapeLabel;					// Record the shape of the origin shape
+	MotionStreak* streak;
 
 	// Generating part: Randomly generate number block names
 	int tar[2];									// Target Information

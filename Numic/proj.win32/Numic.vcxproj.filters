@@ -141,6 +141,9 @@
     <Image Include="..\Resources\pauseBgSprite.png">
       <Filter>resource</Filter>
     </Image>
+    <Image Include="..\Resources\cutLight.png">
+      <Filter>resource</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\numFrame.plist">

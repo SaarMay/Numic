@@ -178,6 +178,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <Image Include="..\Resources\Buttons\rankBtn.png" />
     <Image Include="..\Resources\Buttons\ruleBtn.png" />
     <Image Include="..\Resources\Buttons\startBtn.png" />
+    <Image Include="..\Resources\cutLight.png" />
     <Image Include="..\Resources\GameScene\gameBg.png" />
     <Image Include="..\Resources\GameScene\targetBar.png" />
     <Image Include="..\Resources\GameScene\targetBox.png" />

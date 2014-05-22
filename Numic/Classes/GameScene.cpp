@@ -4,10 +4,13 @@
 // Number Name - [shapr]["item"][value][".png"]
 
 #include "GameScene.h"
-
+#include "CCProtocols.h"
+#include "CCTexture2D.h"
+#include "ccTypes.h"
 #define COCOS2D_DEBUG 1
 
 USING_NS_CC;
+
 using namespace std;
 using namespace CocosDenshion;
 
@@ -111,11 +114,14 @@ bool gameLayer::setSlashObj()
 		SpriteFrameCache::getInstance()->getSpriteFrameByName(numName));
 	
 	auto s = Director::getInstance()->getWinSize();
-	
+	auto fadein = FadeIn::create(0.5f);
+
 	slashObj->setAnchorPoint(Point(0.5,0.5));
 	slashObj->setPosition( Point(s.width / 2, s.height / 2) );
 	slashObj->setTag(315);
-
+	slashObj->setOpacity(0);
+	slashObj->runAction(fadein);
+	
 	float width = slashObj->getContentSize().width;
 	float height = slashObj->getContentSize().height;
 	
@@ -256,6 +262,11 @@ bool gameLayer::init()
 
 	this->setTarget(this->tar[1], this->tar[0]);
 	this->setScore();
+
+	//
+	this->streak = MotionStreak::create(1,3,10,Color3B(255,255,255),"cutLight.png");
+	this->addChild(streak);
+	streak->setPosition(visibleSize.width/2,visibleSize.height/2);
 
 	return true;
 }
@@ -499,6 +510,9 @@ bool gameLayer::onTouchBegan(Touch* touch, Event* event)
 void gameLayer::onTouchMoved(Touch* touch, Event* event)
 {
 	SimpleAudioEngine::getInstance()->playEffect("SoundEffect/cut.wav",false);
+
+	auto pos = touch->getLocation();
+	this->streak->setPosition(pos);
     // If it weren't for the TouchDispatcher, you would need to keep a reference
     // to the touch from touchBegan and check that the current touch is the same
     // as that one.
