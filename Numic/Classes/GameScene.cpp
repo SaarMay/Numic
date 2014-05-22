@@ -242,6 +242,7 @@ bool gameLayer::init()
 	this->setSlashObj();
 	this->addChild(slashObj);
 
+<<<<<<< HEAD
 	auto pauseBtn = MenuItemImage::create("Buttons/pauseBtn.png","Buttons/pauseBtn.png",
 						CC_CALLBACK_1(gameLayer::_pauseBtnCallback, this));
 	pauseBtn->setAnchorPoint(ccp(1,0));
@@ -249,6 +250,10 @@ bool gameLayer::init()
 	auto pauseMenu = Menu::create(pauseBtn,NULL);
 	pauseMenu->setPosition(0,0);
 	this->addChild(pauseMenu);
+=======
+	//auto pauseBtn = MenuItemImage("pauseBtn.png","pauseBtn.png",
+	//							CC_CALLBACK_1(gameLayer::pauseBtnCallBack, this));
+>>>>>>> 39b0009535bb9f529d5f2f92da11caa42d7b88c4
 
 	this->setTarget(this->tar[1], this->tar[0]);
 	this->setScore();
@@ -657,8 +662,26 @@ void gameLayer::setTimer(float dt)
 		rankout << this->scoreLabel->getString() << "\n";
 
 		// Enter the game ending scene
+<<<<<<< HEAD
 		Director::getInstance()->replaceScene(
 			TransitionCrossFade::create(1.0f, endLayer::scene()));
+=======
+		//Director::getInstance()->replaceScene(
+			//TransitionCrossFade::create(1.0f, EndingScene::scene());
+	}
+
+	stringstream ss;
+	string tstr;
+	ss << t;
+	ss >> tstr;
+	timer->setString("00:"+tstr);
+	
+	if(this->t < 10)
+	{
+		// Set color red
+		this->timer->setColor(Color3B(220, 0, 0));
+		timer->setString("00:0"+tstr);
+>>>>>>> 39b0009535bb9f529d5f2f92da11caa42d7b88c4
 	}
 	
 	this->t--;
@@ -856,7 +879,14 @@ bool gameBgLayer::init()
 	return true;
 }
 
+<<<<<<< HEAD
 void gameLayer::_pauseBtnCallback(cocos2d::Ref* pSender)
 {
 	Director::getInstance()->pushScene(pauseScene::scene());
 }
+=======
+//void gameLayer::_pauseBtnCallBack(cocos2d::Ref* pSender)
+//{
+//	Director::getInstance()->pushScene(pauseScene::scene());
+//}
+>>>>>>> 39b0009535bb9f529d5f2f92da11caa42d7b88c4
