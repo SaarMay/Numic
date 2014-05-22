@@ -6,6 +6,7 @@
 #include "GameScene.h"
 
 #define COCOS2D_DEBUG 1
+
 USING_NS_CC;
 using namespace std;
 using namespace CocosDenshion;
@@ -16,7 +17,8 @@ static int OBJ_SHAPE_NUM = 0;
 void gameLayer::_preloading()
 {
 	SimpleAudioEngine::getInstance()->preloadBackgroundMusic("SoundEffect/GameBgMusic.mp3");
-	
+	SimpleAudioEngine::getInstance()->preloadEffect("SoundEffect/cut.wav");
+
 	//SimpleAudioEngine::getInstance()->preloadEffect("effect1.ogg");
 	//SimpleAudioEngine::getInstance()->preloadEffect("effect2.ogg");
 	//SimpleAudioEngine::getInstance()->preloadEffect("effect3.ogg");
@@ -26,8 +28,8 @@ void gameLayer::_preloading()
 	//SimpleAudioEngine::getInstance()->preloadEffect("effect7.ogg");
 	//SimpleAudioEngine::getInstance()->preloadEffect("effect8.ogg");
 
+	SimpleAudioEngine::getInstance()->setEffectsVolume(0.7);
 	SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(0.5);
-	SimpleAudioEngine::getInstance()->setEffectsVolume(1);
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("GameScene/numFrame.plist","GameScene/numFrame.png");
 }
@@ -240,8 +242,13 @@ bool gameLayer::init()
 	this->setSlashObj();
 	this->addChild(slashObj);
 
-	auto pauseBtn = MenuItemImage("pauseBtn.png","pauseBtn.png",
-								CC_CALLBACK_1(gameLayer::pauseBtnCallBack, this));
+	auto pauseBtn = MenuItemImage::create("Buttons/pauseBtn.png","Buttons/pauseBtn.png",
+						CC_CALLBACK_1(gameLayer::_pauseBtnCallback, this));
+	pauseBtn->setAnchorPoint(ccp(1,0));
+	pauseBtn->setPosition(ccp(Director::getInstance()->getWinSize().width - 50, 50));
+	auto pauseMenu = Menu::create(pauseBtn,NULL);
+	pauseMenu->setPosition(0,0);
+	this->addChild(pauseMenu);
 
 	this->setTarget(this->tar[1], this->tar[0]);
 	this->setScore();
@@ -487,6 +494,7 @@ bool gameLayer::onTouchBegan(Touch* touch, Event* event)
 
 void gameLayer::onTouchMoved(Touch* touch, Event* event)
 {
+	SimpleAudioEngine::getInstance()->playEffect("SoundEffect/cut.wav",false);
     // If it weren't for the TouchDispatcher, you would need to keep a reference
     // to the touch from touchBegan and check that the current touch is the same
     // as that one.
@@ -619,23 +627,6 @@ void gameLayer::setTimer(float dt)
 		this->addChild(timer,0);
 	}
 
-	if(this->t == 0)
-	{
-		// Remove number block, remove time lable, show timeUp, keep score
-		this->removeChild(slashObj);			// Remove number block
-		//this->removeChild(timer);			// Remove time lable
-		
-		timer->setString("");
-		auto tup = Sprite::create("GameScene/timeUp.png");
-		tup->setAnchorPoint(ccp(0.5,0.5));
-		tup->setPosition(visibleSize.width/2, visibleSize.height/2);
-		this->addChild(tup, 9, 319);
-
-		// Enter the game ending scene
-		Director::getInstance()->replaceScene(
-			TransitionCrossFade::create(1.0f, EndingScene::scene());
-	}
-
 	stringstream ss;
 	string tstr;
 	ss << t;
@@ -647,6 +638,27 @@ void gameLayer::setTimer(float dt)
 		// Set color red
 		this->timer->setColor(Color3B(220, 0, 0));
 		timer->setString("00:0"+tstr);
+	}
+
+	if(this->t <= 0)
+	{
+		// Remove number block, remove time lable, show timeUp, keep score
+		this->removeChild(slashObj);			// Remove number block
+		//this->removeChild(timer);			// Remove time lable
+		
+		timer->setString("");
+		auto tup = Sprite::create("GameScene/timeUp.png");
+		tup->setAnchorPoint(ccp(0.5,0.5));
+		tup->setPosition(visibleSize.width/2, visibleSize.height/2);
+		this->addChild(tup, 9, 319);
+
+		// store the current rank info into the file
+		ofstream rankout("Ranking.txt",std::ofstream::app);
+		rankout << this->scoreLabel->getString() << "\n";
+
+		// Enter the game ending scene
+		Director::getInstance()->replaceScene(
+			TransitionCrossFade::create(1.0f, endLayer::scene()));
 	}
 	
 	this->t--;
@@ -818,21 +830,6 @@ void gameLayer::setMatchrate()
 	}
 }
 
-void gameLayer::menuCloseCallback(Ref* pSender)
-{
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-	MessageBox("You pressed the close button. Windows Store Apps do not implement a close button.","Alert");
-    return;
-#endif
-
-    Director::getInstance()->end();
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
-#endif
-}
-
-
 void gameLayer::OnceAgain(float dt)
 {
 	cuttedState++;
@@ -859,7 +856,7 @@ bool gameBgLayer::init()
 	return true;
 }
 
-void gameLayer::_pauseBtnCallBack(cocos2d::Ref* pSender)
+void gameLayer::_pauseBtnCallback(cocos2d::Ref* pSender)
 {
 	Director::getInstance()->pushScene(pauseScene::scene());
 }

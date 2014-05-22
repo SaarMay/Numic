@@ -1,39 +1,41 @@
 #include "GamePauseScene.h"
-
-using namespace  cocos2d;
-using namespace CocosDension;
-
-#ifndef _GAME_PAUSE_SCENE_H_
-#define _GAME_PAUSE_SCENE_H_
+USING_NS_CC;
+using namespace CocosDenshion;
 
 bool pauseLayer::init()
 {
-	if ( !Layer::init() )
+	if ( ! Layer::init() )
         return false;
 
-	auto restartBtn = MenuItemImage::create("Buttons/restartBtn.png","Buttons/restartBtn.png",
+	auto restartBtn = MenuItemImage::create("Buttons/pauseNewBtn.png","Buttons/pauseNewBtn.png",
 											CC_CALLBACK_1(pauseLayer::_restartGame, this));
-	auto resumeBtn = MenuItemImage::create("Buttons/resumeBtn.png","Buttons/resumeBtn.png",
+	auto resumeBtn = MenuItemImage::create("Buttons/pauseResumeBtn.png","Buttons/pauseResumeBtn.png",
 											CC_CALLBACK_1(pauseLayer::_resumeGame,this));
-	auto mainbackBtn = MenuItemImage::create("Buttons/mainbackBtn.png","Buttons/mainbackBtn.png",
-											CC_CALLBACK_1(pauseLayer::_backToMain,this)); 
+	auto mainbackBtn = MenuItemImage::create("Buttons/pauseMainBtn.png","Buttons/pauseMainBtn.png",
+											CC_CALLBACK_1(pauseLayer::_backToMain,this));
+	auto musicSwitchBtn = MenuItemImage::create("Buttons/pauseMusicBtn.png","Buttons/pauseMusicBtn.png.png",
+											CC_CALLBACK_1(pauseLayer::_musicSwitch,this));
 
-    auto s = Director::getInstance()->getWinSize();
+    auto s = Director::getInstance()->getVisibleSize();
     auto ss = restartBtn->getContentSize();
+	float hminu = restartBtn->getContentSize().height + 20;
 
 
     restartBtn->setAnchorPoint(ccp(0.5,0.5));
-    restartBtn->setPosition(s.width, s.height);
+	restartBtn->setPosition(s.width/2, s.height/2 - hminu);
 
     resumeBtn->setAnchorPoint(ccp(0.5,0.5));
-    resumeBtn->setPosition(s.width, s.height + 1.2*ss.height);
+	resumeBtn->setPosition(s.width/2, s.height/2 + hminu);
 
-    mainbackBtn->setAnchorPoint(ccp(0.5,0.5));
-    mainbackBtn->setPosition(s.width, s.height - 1.2*ss.height);
+    mainbackBtn->setAnchorPoint(ccp(0,1));
+	mainbackBtn->setPosition(40, s.height-40);
 
+	musicSwitchBtn->setAnchorPoint(ccp(1,1));
+	musicSwitchBtn->setPosition(s.width-40, s.height-40);
 
-	auto pauseMenu = Menu::create(restartBtn,resumeBtn,mainbackBtn,NULL);
-    pauseMenu->alignItemsVertically();
+	auto pauseMenu = Menu::create(restartBtn,resumeBtn,mainbackBtn,musicSwitchBtn,NULL);
+    //pauseMenu->alignItemsVertically();
+	pauseMenu->setPosition(0,0);
 
     this->addChild(pauseMenu);
 
@@ -42,7 +44,7 @@ bool pauseLayer::init()
 
 void pauseLayer::_restartGame(cocos2d::Ref* pSender)
 {
-	Director::getInstance()->poptoRootScene();
+	Director::getInstance()->popToRootScene();
 	Director::getInstance()->replaceScene(
 		TransitionCrossFade::create(1.0f, gameLayer::createScene()));
 }
@@ -54,9 +56,21 @@ void pauseLayer::_resumeGame(cocos2d::Ref* pSender)
 
 void pauseLayer::_backToMain(cocos2d::Ref* pSender)
 {
-	Director::getInstance()->poptoRootScene();	
+	Director::getInstance()->popToRootScene();	
 	Director::getInstance()->replaceScene(
-		TransitionCrossFade::create(1.0f, StartScene::start()));
+		TransitionCrossFade::create(1.0f, StartScene::start("Mr. Ya")));
+}
+
+void pauseLayer::_musicSwitch(cocos2d::Ref* pSender)
+{
+	if (SimpleAudioEngine::getInstance()->isBackgroundMusicPlaying())
+	{
+		SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+	}
+	else
+	{
+		SimpleAudioEngine::getInstance()->playBackgroundMusic("GameBgMusic.mp3");
+	}
 }
 
 bool pauseBgLayer::init()
@@ -85,16 +99,16 @@ bool pauseScene::init()
 	auto pLayer_pause = pauseLayer::create();
 	auto pLayer_bg = pauseBgLayer::create();
 
-	this->addChild(pLayer_bg);
-	this->addChild(pLayer_pause);
+	this->addChild(pLayer_bg,0);
+	this->addChild(pLayer_pause,1);
 
 	return true;
 }
 
 Scene* pauseScene::scene()
 {
-	pauseScene* scene = new pauseScene();
+	pauseScene* scene = new pauseScene;
 	scene->init();
 
-	return true;
+	return scene;
 }

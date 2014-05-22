@@ -7,14 +7,14 @@
 #include "Box2D\Box2D.h"
 #include "CCNode.h"
 
-//#include "HelloScene.h"
-//#include "StartScene.h"
+#include "HelloScene.h"
+#include "StartScene.h"
 #include "GameScene.h"
 #include "GamePauseScene.h"
 //#include "testScene.h"
 //#include "AboutScene.h"
 //#include "RankingScene.h"
-//#include "EndingScene.h"
+#include "EndingScene.h"
 //#include "ruleScene.h"
 
 #endif

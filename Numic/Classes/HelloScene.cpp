@@ -69,7 +69,7 @@ bool HelloScene::init()
 void HelloScene::enterGame(float dt)
 {
 	Director::sharedDirector()->replaceScene(
-		TransitionCrossFade::create(0.5f, StartScene::start()));
+		TransitionCrossFade::create(0.5f, StartScene::start("Mrs.Ya")));
 }
 
 Scene* HelloScene::Hello()

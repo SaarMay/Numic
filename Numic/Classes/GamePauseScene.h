@@ -4,7 +4,7 @@
 #include "allScene.h"
 USING_NS_CC;
 
-class pauseScene : public cocos2d::Scene
+class pauseScene : public Scene
 {
 public:
 	virtual bool init();
@@ -16,7 +16,7 @@ public:
 
 };
 
-class pauseBgLayer : public cocos2d::Layer
+class pauseBgLayer : public Layer
 {
 public:
 	virtual bool init();
@@ -28,7 +28,7 @@ public:
 	/* data */
 };
 
-class pauseLayer
+class pauseLayer : public Layer
 {
 public:
 	//pauseLayer(arguments);
@@ -42,8 +42,9 @@ public:
 	void _resumeGame(cocos2d::Ref* pSender);
 	// back to main
 	void _backToMain(cocos2d::Ref* pSender);
-
-	CREATE_FUNC(pauseBgLayer);
+	// music switch
+	void _musicSwitch(cocos2d::Ref* pSender);
+	CREATE_FUNC(pauseLayer);
 	/* data */
 };
 

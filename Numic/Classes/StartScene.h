@@ -1,15 +1,23 @@
 #ifndef _START_SCENE_H_
 #define _START_SCENE_H_
 #include "allScene.h"
-USING_NS_CC;
+#include <string>
+#include <fstream>
 
-class StartScene : public cocos2d::Scene
+USING_NS_CC;
+using namespace std;
+
+class StartScene : public Scene
 {
+private:
+	string username;
 public:
 	virtual bool init();
 
-	static cocos2d::Scene* start();
+	static cocos2d::Scene* start(string user);
 	void menuCallback(cocos2d::Ref* pSender);
+
+	void setUsername(string usr = "Mrs.Ya");
 };
 
 class startBgLayer : public cocos2d::Layer

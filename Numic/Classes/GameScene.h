@@ -1,12 +1,12 @@
 #ifndef __GAME_SCENE_H__
 #define __GAME_SCENE_H__
 
-#include "cocos2d.h"
-#include "SimpleAudioEngine.h"
+#include "allScene.h"
 #include <string>
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <fstream>
 
 USING_NS_CC;
 using namespace std;
@@ -21,7 +21,7 @@ public:
     virtual bool init();  
 
     // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
+	void _pauseBtnCallback(Object* pSender);
 
 	virtual void onEnter() override;
 	bool onTouchBegan(Touch* touch, Event* event);
@@ -81,9 +81,6 @@ private:
 	float matchRate;					// Match the result with the target
 	LabelTTF* scoreLabel;
 	void setScore();
-
-	// Pause Part
-	void _pauseBtnCallback(Ref* sender);
 };
 
 // game background

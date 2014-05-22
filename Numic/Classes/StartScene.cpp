@@ -37,7 +37,7 @@ bool startBtnLayer::init()
 	float y = winSize.height;
 	startBtn->setAnchorPoint(ccp(1,0.5));
 	// startBtn 位置设定， 最右中心点为锚点
-	startBtn->setPosition(ccp((winSize.width - 150), (winSize.height/2-10)));
+	startBtn->setPosition(ccp((winSize.width - 250), (winSize.height/2-10)));
 
 	this->addChild(startBtn);
 }
@@ -93,12 +93,21 @@ bool StartScene::init()
 	return true;
 }
 
-Scene* StartScene::start()
+Scene* StartScene::start(string user)
 {
 	StartScene* scene = new StartScene();
 	scene->init();
+	scene->setUsername(user);
 
 	return scene;
+}
+
+void StartScene::setUsername(string usr)
+{
+	this->username = usr;
+	ofstream rankout("Ranking.txt",std::ofstream::app);
+	
+	rankout << this->username << "\t";
 }
 
 void startMenuLayer::ruleCall(cocos2d::Ref* pSender)

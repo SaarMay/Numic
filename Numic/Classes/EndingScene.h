@@ -5,6 +5,7 @@
 #include "Box2D\Box2D.h"
 #include "SimpleAudioEngine.h"
 
+
 class endLayer : public cocos2d::Layer
 {
 public:
@@ -17,8 +18,7 @@ public:
 	void backToMain(cocos2d::Ref* pSender);
 	void getRank();
 	void newgame();
-	void 
 
-	CREATE_FUNC(EndingLayer);
+	CREATE_FUNC(endLayer);
 };
 #endif
