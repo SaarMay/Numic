@@ -831,34 +831,50 @@ void gameLayer::setMatchrate()
 	Point endPoint = this->touchEnd;
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	// this->objShape stores the vertex information
-	float k,b,d,angle,per,likelihood;
+	float k,b,d,angle,per,likelihood,l;
 	k=(endPoint.y-startPoint.y)/(endPoint.x-startPoint.x);
-	cout<<k;
+
 	b=startPoint.y-k*startPoint.x;
     d=abs(visibleSize.height / 2-k*visibleSize.width / 2-b)/sqrt(1+k*k);
+	if(d<80){
 	angle=2*acos(d/80);
 	per=((angle-sin(angle))/(2*3.14159));//(1-(angle-sin(angle))/(2*3.14159));
+     if(2*tar[1]<tar[0])
+	this->targetBar->setPositionX(Director::getInstance()->getWinSize().width*per);
+	 else
+    this->targetBar->setPositionX(Director::getInstance()->getWinSize().width*(1-per));
 	likelihood=per/min((float)tar[1]/(float)tar[0],1-(float)tar[1]/(float)tar[0]);
-	if(this->objShape)
+	l=min(likelihood,1/likelihood);
+
+	//if(this->objShape);
+	//else
+	
 
 	switch (this->shapeLabel)
 	{
 	case 0:
 		// If it is a rectangle
-		matchRate = 1-abs(1-likelihood) ;
+		matchRate =l ;
 		break;
 	case 1:
 		// If it is a circle
-	   matchRate = 1-abs(1-likelihood);
-	    
+	   matchRate =l;
+	
 		break;
 	case 2:
 		// If it is a triangle
-		matchRate = 1-abs(1-likelihood);
+		matchRate=l;
 		break;
 	default:
+		//matchRate=0.7;
 		break;
 	}
+	}
+	else
+	{//if(this->objShape);
+	//else
+		this->targetBar->setPositionX(0);
+		matchRate=0;	 }
 }
 
 void gameLayer::OnceAgain(float dt)
