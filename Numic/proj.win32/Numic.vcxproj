@@ -188,6 +188,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <Image Include="..\Resources\pauseBgSprite.png" />
     <Image Include="..\Resources\rankBgSprite.png" />
     <Image Include="..\Resources\remio.png" />
+    <Image Include="..\Resources\stars.png" />
     <Image Include="..\Resources\startBgSprite.png" />
     <Image Include="..\Resources\timeUp.png" />
   </ItemGroup>

@@ -264,7 +264,7 @@ bool gameLayer::init()
 	this->setScore();
 
 	//
-	this->streak = MotionStreak::create(1,3,10,Color3B(255,255,255),"cutLight.png");
+	this->streak = MotionStreak::create(1,3,15,Color3B(255,255,255),"cutLight.png");
 	this->addChild(streak);
 	streak->setPosition(visibleSize.width/2,visibleSize.height/2);
 
@@ -525,7 +525,20 @@ void gameLayer::onTouchEnded(Touch* touch, Event* event)
 {
 	CCLOG("Paddle::onTouchEnd id = %d, x = %f, y = %f", touch->getID(), touch->getLocation().x, touch->getLocation().y);
 	this->touchEnd = touch->getLocation();
-	
+
+	auto _emitter = ParticleFlower::create();
+	_emitter->retain();
+	this->addChild(_emitter,5,5555);
+	_emitter->setTexture(Director::getInstance()->getTextureCache()->addImage("stars.png"));
+	_emitter->setPosition(touchEnd);
+	_emitter->setLife(0.5);
+	_emitter->setSpeed(300);
+	_emitter->setAutoRemoveOnFinish(true);
+	_emitter->update(2);
+
+	//auto fadeout = FadeOut::create(0.5f);
+	//_emitter->runAction(fadeout);
+
 	Point st, ed;
 	st = slashObj->convertToNodeSpaceAR(this->convertToWorldSpace(this->touchStart));
 	ed = slashObj->convertToNodeSpaceAR(this->convertToWorldSpace(this->touchEnd));

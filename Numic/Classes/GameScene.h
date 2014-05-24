@@ -28,6 +28,7 @@ public:
     void onTouchMoved(Touch* touch, Event* event);
     void onTouchEnded(Touch* touch, Event* event);
 	bool onContactBegin(PhysicsContact& contact);
+	void update();
 
 	bool cutIntoMask(Point* targets, int count, Point st, Point ed, Point** maskLPts, int* maskLNum, Point** maskRPts, int* maskRNum);
 
