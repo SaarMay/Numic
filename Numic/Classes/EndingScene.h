@@ -5,7 +5,6 @@
 #include "Box2D\Box2D.h"
 #include "SimpleAudioEngine.h"
 
-
 class endLayer : public cocos2d::Layer
 {
 public:

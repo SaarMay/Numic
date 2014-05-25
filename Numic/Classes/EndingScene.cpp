@@ -27,12 +27,13 @@ Scene* endLayer::scene()
 
 void endLayer::backToMain(cocos2d::Ref* pSender)
 {
-
+	//Director::getInstance()->replaceScene(
+		//TransitionCrossFade::create(1.0f, startScene::start()));	
 }
 
 void endLayer::getRank()
 {
-
+	//auto rb = RankBo
 }
 
 void endLayer::newgame()

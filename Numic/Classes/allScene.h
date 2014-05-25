@@ -6,6 +6,7 @@
 #include "cocos-ext.h"
 #include "Box2D\Box2D.h"
 #include "CCNode.h"
+//#include "RankingBoard.h"
 
 #include "HelloScene.h"
 #include "StartScene.h"

@@ -782,12 +782,12 @@ Sprite* gameLayer::_makeSmallSprite(int label)
 
 	if(label == 1){
 		numName[5] = this->tar[1] + 48;
-		vVect = Vect(5,150);
+		vVect = Vect(5,0);
 		scale = sqrt((float)tar[1] / (float)tar[0]);
 	}
 	else if(label == 2){
 		numName[5] = this->tar[0] - tar[1] + 48;
-		vVect = Vect(-10,125);
+		vVect = Vect(-10,0);
 		scale = sqrt((float)(tar[0]-tar[1])/(float)tar[0]);
 	}
 
