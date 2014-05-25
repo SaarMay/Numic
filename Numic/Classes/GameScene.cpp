@@ -76,6 +76,16 @@ void gameLayer::setTarget(float p, float t)
 
 bool gameLayer::setSlashObj()
 {
+	auto s = Director::getInstance()->getWinSize();
+	
+	ParticleSystem* explode = ParticleSystemQuad::create("ParticleSys/exploding.plist");
+	explode->retain();
+	explode->setAutoRemoveOnFinish(true);
+	ParticleBatchNode *batch = ParticleBatchNode::createWithTexture(explode->getTexture());
+	batch->addChild(explode);
+	batch->setPosition(s.width/2, s.height/2);
+	this->addChild(batch);
+
 	string numName = "titem7.png";
 
 	srand((unsigned)time(NULL));
@@ -113,7 +123,6 @@ bool gameLayer::setSlashObj()
 	this->slashObj = Sprite::createWithSpriteFrame(
 		SpriteFrameCache::getInstance()->getSpriteFrameByName(numName));
 	
-	auto s = Director::getInstance()->getWinSize();
 	auto fadein = FadeIn::create(0.5f);
 
 	slashObj->setAnchorPoint(Point(0.5,0.5));

@@ -194,6 +194,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\numFrame.plist" />
+    <None Include="..\Resources\ParticleSys\exploding.plist" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="..\Resources\SoundEffect\cut.wav" />

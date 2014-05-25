@@ -19,6 +19,9 @@
     <Filter Include="resource\Buttons">
       <UniqueIdentifier>{18d2cb2b-78e1-4c40-8fe4-69f9ae9a3675}</UniqueIdentifier>
     </Filter>
+    <Filter Include="resource\ParticleSys">
+      <UniqueIdentifier>{f588d638-6ac1-4bf1-81ac-09744e8f4894}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -151,6 +154,9 @@
   <ItemGroup>
     <None Include="..\Resources\numFrame.plist">
       <Filter>resource\GameScene</Filter>
+    </None>
+    <None Include="..\Resources\ParticleSys\exploding.plist">
+      <Filter>resource\ParticleSys</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
