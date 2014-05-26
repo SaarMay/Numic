@@ -81,6 +81,7 @@ bool gameLayer::setSlashObj()
 	ParticleSystem* explode = ParticleSystemQuad::create("ParticleSys/exploding.plist");
 	explode->retain();
 	explode->setAutoRemoveOnFinish(true);
+	explode->setSpeed(300);
 	ParticleBatchNode *batch = ParticleBatchNode::createWithTexture(explode->getTexture());
 	batch->addChild(explode);
 	batch->setPosition(s.width/2, s.height/2);
@@ -137,9 +138,9 @@ bool gameLayer::setSlashObj()
 	if(type == 2)
 	{
 		this->objShape = new Point[3];
-		objShape[2] = Point(0, height/-2);
-		objShape[1] = Point(width/2, (height/2)-20);
-		objShape[0] = Point(width/-2, (height/2)-20);
+		objShape[2] = Point(0, height/-2 -10);
+		objShape[1] = Point(width/2 + 10, (height/2));
+		objShape[0] = Point(width/-2 -10, (height/2));
 		OBJ_SHAPE_NUM = 3;
 	}
 
@@ -782,12 +783,12 @@ Sprite* gameLayer::_makeSmallSprite(int label)
 
 	if(label == 1){
 		numName[5] = this->tar[1] + 48;
-		vVect = Vect(5,0);
+		vVect = Vect(1,0);
 		scale = sqrt((float)tar[1] / (float)tar[0]);
 	}
 	else if(label == 2){
 		numName[5] = this->tar[0] - tar[1] + 48;
-		vVect = Vect(-10,0);
+		vVect = Vect(-2,0);
 		scale = sqrt((float)(tar[0]-tar[1])/(float)tar[0]);
 	}
 
