@@ -173,19 +173,76 @@ void gameLayer::setScore()
 	
 	else{
 		this->setMatchrate();
+		this->setMarkBox();
 		int score = atoi(scoreLabel->getString().c_str());
-		CCLog("Origin: %d",score);
-		score += abs(matchRate)*15;							// highest score : 15
-		CCLog("%f",this->matchRate);
-		CCLOG("End: %d",score);
-
 		stringstream ss;
 		string tstr;
+		
+		score += abs(matchRate)*15;
+		//CCLog("Origin: %d",score);
+
 		ss << score;
 		ss >> tstr;
 
 		scoreLabel->setString(tstr);
+
+		/*auto fadeOut = FadeOut::create(0.5);
+		markBox->runAction(fadeOut);*/
 	}
+}
+
+//void gameLayer::keyBackClicked()
+//{
+//
+////        JniMethodInfo minfo;
+////        bool isHave = JniHelper::getStaticMethodInfo(minfo,"com/Numic/Numic/NumicAndroid",
+////"sendCloseAppMessage","()V");
+////        
+////       if(!isHave){
+////           CCLog("jni:此方法不存在");
+////        }else{
+////            minfo.env->CallStaticVoidMethod(minfo.classID,minfo.methodID);
+////        }
+////        
+////        CCLog("jni:jni-java执行完毕");
+//
+//}
+
+void gameLayer::setMarkBox()
+{
+	auto winSize = Director::getInstance()->getWinSize();
+	if(this->markBox == NULL){
+		//auto winSize = Director::getInstance()->getWinSize();
+		markBox = LabelTTF::create("","AdobeArabic Bold",70);
+		auto color = Color3B(255,0,0);
+		markBox->setColor(color);
+		markBox->setAnchorPoint(ccp(0,1));
+		this->addChild(markBox);
+	}
+
+	else
+	{
+		markBox->setOpacity(100);
+		stringstream ss;
+		string curStr;
+		int curScore = abs(this->matchRate)*15;
+
+		ss << curScore;
+		ss >> curStr;
+
+		markBox->setString(curStr);
+		//auto fadein = FadeIn::create(0.2);
+		auto fadeOut = FadeOut::create(1);
+		
+		auto jump = JumpTo::create(1,this->scoreLabel->getPosition(),winSize.height/3,1);
+
+		auto spwAct = Spawn::create(jump,fadeOut,NULL);
+		//markBox->runAction(jump);
+
+		markBox->runAction(spwAct);
+	}
+
+	markBox->setPosition(winSize.width/2 + 130, winSize.height/2);	
 }
 
 Scene* gameLayer::createScene()
@@ -277,6 +334,9 @@ bool gameLayer::init()
 	this->streak = MotionStreak::create(1,3,15,Color3B(255,255,255),"cutLight.png");
 	this->addChild(streak);
 	streak->setPosition(visibleSize.width/2,visibleSize.height/2);
+
+	this->markBox = NULL;
+	this->setMarkBox();
 
 	return true;
 }
@@ -500,6 +560,7 @@ void gameLayer::onEnter()
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 
 	this->schedule(schedule_selector(gameLayer::setTimer),1);
+	this->setKeypadEnabled(true);
 }
 
 bool gameLayer::onTouchBegan(Touch* touch, Event* event)
@@ -572,6 +633,7 @@ void gameLayer::onTouchEnded(Touch* touch, Event* event)
 	}
 	
 	this->setScore();
+	//this->markBox->setPosition(touchEnd);
 }
 
 bool gameLayer::onContactBegin(PhysicsContact& contact)

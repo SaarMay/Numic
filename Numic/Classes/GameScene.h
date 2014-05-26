@@ -83,6 +83,12 @@ private:
 	float matchRate;					// Match the result with the target
 	LabelTTF* scoreLabel;
 	void setScore();
+
+	// show marks
+	LabelTTF* markBox;				// Record the marks for very cut
+	void setMarkBox();					// Set mark box for every part
+
+	//virtual void keyBackClicked();
 };
 
 // game background

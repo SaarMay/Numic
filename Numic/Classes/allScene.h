@@ -8,6 +8,10 @@
 #include "CCNode.h"
 //#include "RankingBoard.h"
 
+//#include "platform/android/jni/JniHelper.h"
+//#include <jni.h>
+//#include <android/log.h>
+
 #include "HelloScene.h"
 #include "StartScene.h"
 #include "GameScene.h"
