@@ -154,7 +154,7 @@ bool endLayer::init()
 Scene* endLayer::scene()
 {
 	Scene* scene = Scene::create();
-	auto bgSprite = Sprite::create("rankBgSprite.png");
+	auto bgSprite = Sprite::create("endBgSprite.png");
 	auto contentSprite = endLayer::create();
 
 	auto winSize = Director::getInstance()->getWinSize();
