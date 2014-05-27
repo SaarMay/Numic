@@ -16,10 +16,9 @@
 #include "StartScene.h"
 #include "GameScene.h"
 #include "GamePauseScene.h"
-//#include "testScene.h"
-//#include "AboutScene.h"
-//#include "RankingScene.h"
+#include "AboutScene.h"
+#include "RankingScene.h"
 #include "EndingScene.h"
-//#include "ruleScene.h"
+#include "RuleScene.h"
 
 #endif

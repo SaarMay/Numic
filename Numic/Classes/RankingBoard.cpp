@@ -1,7 +1,8 @@
-#include "RankingBoard.h"
+#include "EndingScene.h"
 #include <algorithm>
 #include <sstream>
 USING_NS_CC;
+using namespace std;
 
 bool rankSprite::init()
 {
@@ -9,46 +10,53 @@ bool rankSprite::init()
 		return false;
 	
 	auto winSize = Director::getInstance()->getWinSize();
-	this->setContentSize(Size(winSize.height*0.6,30.0f));
+	this->setContentSize(Size(winSize.height*0.5,40.0f));
 	this->setAnchorPoint(ccp(0,0));
 	this->setPosition(10,10);
 
-	this->rankNum = LabelTTF::create("","AdobeArabic Bold",30);
-	this->score = LabelTTF::create("","AdobeArabic Bold",30);
-	this->name = LabelTTF::create("","AdobeArabic Bold",30);
+	this->rankNumLabel = LabelTTF::create("","AdobeArabic Bold",30);
+	this->scoreLabel = LabelTTF::create("","AdobeArabic Bold",30);
+	this->nameLabel = LabelTTF::create("","AdobeArabic Bold",30);
 
-	this->addChild(rankNum);
-	this->addChild(name);
-	this->addChild(score);
+	this->addChild(rankNumLabel);
+	this->addChild(nameLabel);
+	this->addChild(scoreLabel);
 
 	return true;
 }
 
 rankSprite* rankSprite::createSprite(int r, string n, int s, bool ifCur)
 {
-	rankSprite* rs = rankSprite::create();
+	auto rs = rankSprite::create();
 
-	stringstream ss;
-	string tstr;
-	ss << r;
-	ss >> tstr;
+	if(r == 0 || s == 0)
+	{
+		rs->rankNumLabel->setString("");
+		rs->scoreLabel->setString("");
+	}
 
-	rs->rankNum->setString(tstr);
-	
-	stringstream ss;
-	string tstr;
-	ss << r;
-	ss >> tstr;	
-	
-	rs->name->setString(n);
-	rs->score->setString(tstr);
-	rs->setPositionY(40*(r-1)+10);
+	else
+	{
+		stringstream ss;
+		string tstr;
+		ss << r;
+		ss >> tstr;
+
+		rs->rankNumLabel->setString(tstr);
+		rs->nameLabel->setString(n);
+
+		ss << s;
+		ss >> tstr;
+		rs->scoreLabel->setString(tstr);
+	}
 
 	if(ifCur)
 	{
 		auto Bgcolor = Color3B(255,155,155);
 		rs->setColor(Bgcolor);
 	}
+
+	rs->setAnchorPoint(ccp(0,0));
 
 	return rs;
 }
@@ -57,16 +65,18 @@ vector<userInfo> RankingBoard::getRankInfo()
 {
 	vector<userInfo> uInfo;
 	ifstream rankin("Ranking.txt");
-	string name;
-	int score;
+	string userName;
+	int userScore;
 	int cur = 0;
-	while (rankin >> name)
+	while (rankin >> userName)
 	{
-		rankin >> score;
-		uInfo.push_back(userInfo(name,score,0));
+		rankin >> userScore;
+		uInfo.push_back(userInfo(userName,userScore,0));
 		cur++;
 	}
+
 	uInfo[cur].ifCur = 1;
+	this->curScore = uInfo[cur].score;
 
 	sort(uInfo.begin(),uInfo.end());
 
@@ -75,16 +85,21 @@ vector<userInfo> RankingBoard::getRankInfo()
 
 bool RankingBoard::init()
 {
-	if(!Layer::init())
+	if(!Sprite::init())
 		return false;
 
 	vector<userInfo> v = this->getRankInfo();
 	int l = v.size();
 
-	for(int i = 0; i < v.size() && i < 5; i++)
+	for(int i = 0; i < 5; i++)
 	{
 		rankSprite* r;
-		r->createSprite(l-i,v[i].name,v[i].score,v[i].ifCur);
+		if(i < v.size())
+			r->createSprite(l-i,v[i].name,v[i].score,v[i].ifCur);
+		else
+			r->createSprite();
+
+		r->setPosition(10, 45*i-40);
 
 		this->addChild(r);
 	}

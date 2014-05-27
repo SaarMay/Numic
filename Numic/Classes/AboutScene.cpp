@@ -28,12 +28,20 @@ bool aboutLayer::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto origin = Director::getInstance()->getVisibleOrigin();
 	
-	auto bgSprite = Sprite::create("AboutSprite.png");
+	auto bgSprite = Sprite::create("aboutBgSprite.png");
+	bgSprite->setAnchorPoint(ccp(0.5,0.5));
+	bgSprite->setPosition(visibleSize.width/2, visibleSize.height/2);
+	float width = bgSprite->getContentSize().width;
+	float height = bgSprite->getContentSize().height;
+	float scaleRateW = visibleSize.width / width;
+	float scaleRateH = visibleSize.height / height;
+	bgSprite->setScale(scaleRateW,scaleRateH);
 
-	auto backBtn = MenuItemImage::create("Buttons/backBtn.png","Buttons/backBtn.png",this->getParent(),menu_selector(aboutLayer::backTostart));
+	auto backBtn = MenuItemImage::create("Buttons/aboutBackBtn.png","Buttons/aboutBackBtn.png",this->getParent(),menu_selector(aboutLayer::backTostart));
 	backBtn->setAnchorPoint(ccp(1,1));
 	backBtn->setPosition(visibleSize.width-50, visibleSize.height-50);
     auto menu = Menu::create(backBtn,NULL);
+	menu->setPosition(Point::ZERO);
 	
 	this->addChild(bgSprite);
 	this->addChild(menu);
@@ -42,6 +50,5 @@ bool aboutLayer::init()
 
 void aboutLayer::backTostart(cocos2d::Ref* pSender)
 {
-	Director::sharedDirector()->replaceScene(
-		TransitionCrossFade::create(1.0f, StartScene::start()));
+	Director::getInstance()->popScene();
 }

@@ -37,7 +37,7 @@ bool startBtnLayer::init()
 	float y = winSize.height;
 	startBtn->setAnchorPoint(ccp(1,0.5));
 	// startBtn 位置设定， 最右中心点为锚点
-	startBtn->setPosition(ccp((winSize.width - 250), (winSize.height/2-10)));
+	startBtn->setPosition(ccp((winSize.width - 250), (winSize.height/2-50)));
 
 	this->addChild(startBtn);
 }
@@ -112,20 +112,17 @@ void StartScene::setUsername(string usr)
 
 void startMenuLayer::ruleCall(cocos2d::Ref* pSender)
 {
-	//Director::sharedDirector()->replaceScene(
-	//	TransitionCrossFade::create(1.0f, RuleScene::scene())
+	Director::getInstance()->pushScene(ruleLayer::scene());
 }
 
 void startMenuLayer::aboutUs(cocos2d::Ref* pSender)
 {
-	//Director::sharedDirector()->replaceScene(
-	//	TransitionCrossFade::create(1.0f, AboutScene::scene()));
+	Director::getInstance()->pushScene(aboutLayer::scene());
 }
 
 void startMenuLayer::rankingCall(cocos2d::Ref* pSender)
 {
-	//Director::sharedDirector()->replaceScene(
-	//	TransitionCrossFade::create(1.0f, RankingScene::scene()));
+	Director::getInstance()->pushScene(rankLayer::scene());
 }
 
 void startBtnLayer::gameStarting(cocos2d::Ref* pSender)

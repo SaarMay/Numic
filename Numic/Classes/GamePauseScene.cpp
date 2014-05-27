@@ -44,7 +44,7 @@ bool pauseLayer::init()
 
 void pauseLayer::_restartGame(cocos2d::Ref* pSender)
 {
-	Director::getInstance()->popToRootScene();
+	//Director::getInstance()->popToRootScene();
 	Director::getInstance()->replaceScene(
 		TransitionCrossFade::create(1.0f, gameLayer::createScene()));
 }

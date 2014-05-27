@@ -83,7 +83,7 @@ bool gameLayer::setSlashObj()
 	explode->setAutoRemoveOnFinish(true);
 	explode->setSpeed(300);
 	ParticleBatchNode *batch = ParticleBatchNode::createWithTexture(explode->getTexture());
-	batch->addChild(explode);
+	batch->addChild(explode,17);
 	batch->setPosition(s.width/2, s.height/2);
 	this->addChild(batch);
 
@@ -112,7 +112,7 @@ bool gameLayer::setSlashObj()
 
 	// Generate target
 	int total = rand() % 5 + 5;
-	int part = rand() % (total-1) + 1;
+	int part = rand() % (total/2) + 1;
 	
 	numName[5] = total+48;
 
@@ -331,8 +331,8 @@ bool gameLayer::init()
 	this->setScore();
 
 	//
-	this->streak = MotionStreak::create(1,3,15,Color3B(255,255,255),"cutLight.png");
-	this->addChild(streak);
+	this->streak = MotionStreak::create(0.5,3,15,Color3B(255,255,255),"cutLight.png");
+	this->addChild(streak,19);
 	streak->setPosition(visibleSize.width/2,visibleSize.height/2);
 
 	this->markBox = NULL;
@@ -565,7 +565,10 @@ void gameLayer::onEnter()
 
 bool gameLayer::onTouchBegan(Touch* touch, Event* event)
 {
-    CCLOG("Paddle::onTouchBegan id = %d, x = %f, y = %f", touch->getID(), touch->getLocation().x, touch->getLocation().y);
+    if(this->t <= 0)
+		return false;
+	else{
+	CCLOG("Paddle::onTouchBegan id = %d, x = %f, y = %f", touch->getID(), touch->getLocation().x, touch->getLocation().y);
     
     /*if (_state != kPaddleStateUngrabbed) return false;
     if ( !containsTouchLocation(touch) ) return false;
@@ -576,15 +579,20 @@ bool gameLayer::onTouchBegan(Touch* touch, Event* event)
 
     CCLOG("return true");
     return true;
+	}
 }
 
 void gameLayer::onTouchMoved(Touch* touch, Event* event)
 {
+	if(this->t <=0 )
+		;
+	else{
 	SimpleAudioEngine::getInstance()->playEffect("SoundEffect/cut.wav",false);
 
 	auto pos = touch->getLocation();
 	this->streak->setPosition(pos);
-    // If it weren't for the TouchDispatcher, you would need to keep a reference
+	}
+	// If it weren't for the TouchDispatcher, you would need to keep a reference
     // to the touch from touchBegan and check that the current touch is the same
     // as that one.
     // Actually, it would be even more complicated since in the Cocos dispatcher
@@ -594,6 +602,9 @@ void gameLayer::onTouchMoved(Touch* touch, Event* event)
 
 void gameLayer::onTouchEnded(Touch* touch, Event* event)
 {
+	if(this->t <= 0)
+		;
+	else{
 	CCLOG("Paddle::onTouchEnd id = %d, x = %f, y = %f", touch->getID(), touch->getLocation().x, touch->getLocation().y);
 	this->touchEnd = touch->getLocation();
 
@@ -620,6 +631,7 @@ void gameLayer::onTouchEnded(Touch* touch, Event* event)
 	{
 		if(this->matchRate <= 1.1 && this->matchRate >= 0.9)
 		{
+			SimpleAudioEngine::getInstance()->playEffect("SoundEffect/perfectCutEffect.wav");
 			this->addChild(_makeSmallSprite(1),1,3151);
 			this->addChild(_makeSmallSprite(2),1,3152);
 		}
@@ -634,6 +646,7 @@ void gameLayer::onTouchEnded(Touch* touch, Event* event)
 	
 	this->setScore();
 	//this->markBox->setPosition(touchEnd);
+	}
 }
 
 bool gameLayer::onContactBegin(PhysicsContact& contact)
@@ -665,7 +678,7 @@ bool gameLayer::onContactBegin(PhysicsContact& contact)
 
 	if(nodeA->getTag() == 3151 || nodeA->getTag() == 3152)
 		this->removeChild(nodeA);
-	string effect = "effect0.ogg";
+	string effect = "SoundEffect/effect0.wav";
 	int match;
 
 	if(0.2-abs(matchRate-1) < 0)
@@ -677,12 +690,12 @@ bool gameLayer::onContactBegin(PhysicsContact& contact)
 	{
 	case 3151:
 		this->removeChild(nodeA);
-		effect[6] = tar[1]*match + 48;
+		effect[19] = tar[1]*match + 48;
 		SimpleAudioEngine::getInstance()->playEffect(effect.c_str());
 		break;
 	case 3152:
 		this->removeChild(nodeA);
-		effect[6] = (tar[0]-tar[1])*match + 48;
+		effect[19] = (tar[0]-tar[1])*match + 48;
 		SimpleAudioEngine::getInstance()->playEffect(effect.c_str());
 		break;
 	default:
@@ -693,12 +706,12 @@ bool gameLayer::onContactBegin(PhysicsContact& contact)
 	{
 	case 3151:
 		this->removeChild(nodeB);
-		effect[6] = tar[1]*match + 48;
+		effect[19] = tar[1]*match + 48;
 		SimpleAudioEngine::getInstance()->playEffect(effect.c_str());
 		break;
 	case 3152:
 		this->removeChild(nodeB);
-		effect[6] = (tar[0]-tar[1])*match + 48;
+		effect[19] = (tar[0]-tar[1])*match + 48;
 		SimpleAudioEngine::getInstance()->playEffect(effect.c_str());
 		break;
 	default:
@@ -721,7 +734,7 @@ void gameLayer::setTimer(float dt)
 
 	if(this->timer == NULL)
 	{
-		this->t = 60;
+		this->t = 10;
 		timer = LabelTTF::create("","AdobeArabic Bold",24);			// Generate font
 		timer->setColor(Color3B(255,255,255));
 		timer->setAnchorPoint(ccp(0,0.5));
@@ -743,29 +756,33 @@ void gameLayer::setTimer(float dt)
 		timer->setString("00:0"+tstr);
 	}
 
-	if(this->t <= 0)
+	if(this->t == 0)
 	{
 		// Remove number block, remove time lable, show timeUp, keep score
 		this->removeChild(slashObj);			// Remove number block
 		//this->removeChild(timer);			// Remove time lable
-		
-		timer->setString("");
-		auto tup = Sprite::create("GameScene/timeUp.png");
-		tup->setAnchorPoint(ccp(0.5,0.5));
-		tup->setPosition(visibleSize.width/2, visibleSize.height/2);
-		this->addChild(tup, 9, 319);
 
 		// store the current rank info into the file
 		ofstream rankout("Ranking.txt",std::ofstream::app);
 		rankout << this->scoreLabel->getString() << "\n";
 
+		timer->setString("");
+		auto tup = Sprite::create("GameScene/timeUp.png");
+		tup->setAnchorPoint(ccp(0.5,0.5));
+		tup->setPosition(visibleSize.width/2, visibleSize.height/2);
+		this->addChild(tup, 9, 319);
+	}
+
+	if(this->t < 0)
+	{
+
 		// Enter the game ending scene
 		Director::getInstance()->replaceScene(
-			TransitionCrossFade::create(1.0f, endLayer::scene()));
+			TransitionCrossFade::create(0.5f, endLayer::scene()));
+		t = 0;
 		//Director::getInstance()->replaceScene(
 			//TransitionCrossFade::create(1.0f, EndingScene::scene());
 	}
-
 	ss << t;
 	ss >> tstr;
 	timer->setString("00:"+tstr);
@@ -773,6 +790,7 @@ void gameLayer::setTimer(float dt)
 	if(this->t < 10)
 	{
 		// Set color red
+		SimpleAudioEngine::getInstance()->playEffect("SoundEffect/timeUpEffect.wav");
 		this->timer->setColor(Color3B(220, 0, 0));
 		timer->setString("00:0"+tstr);
 	}
@@ -912,37 +930,57 @@ ClippingNode* gameLayer::_makeClippingNode(Point* mask, int count, Point* physic
 
 void gameLayer::setMatchrate()
 {
-	Point startPoint = this->touchStart;
+Point startPoint = this->touchStart;
 	Point endPoint = this->touchEnd;
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	// this->objShape stores the vertex information
-	float k,b,d,angle,per,likelihood;
+	float k,b,d,angle,per,likelihood,l;
 	k=(endPoint.y-startPoint.y)/(endPoint.x-startPoint.x);
-	cout<<k;
+
 	b=startPoint.y-k*startPoint.x;
     d=abs(visibleSize.height / 2-k*visibleSize.width / 2-b)/sqrt(1+k*k);
-	angle=2*acos(d/80);
-	per=((angle-sin(angle))/(2*3.14159));//(1-(angle-sin(angle))/(2*3.14159));
-	likelihood=per/min((float)tar[1]/(float)tar[0],1-(float)tar[1]/(float)tar[0]);
-	if(this->objShape)
+	if(d<80){
+		
+		angle=2*acos(d/80);
+		per=((angle-sin(angle))/(2*3.14159));//(1-(angle-sin(angle))/(2*3.14159));
+    
+		if(2*tar[1]<tar[0])
+			this->targetBar->setPositionX(Director::getInstance()->getWinSize().width*per);
+		else
+			this->targetBar->setPositionX(Director::getInstance()->getWinSize().width*(1-per));
+	
+		likelihood=per/min((float)tar[1]/(float)tar[0],1-(float)tar[1]/(float)tar[0]);
+		l=min(likelihood,1/likelihood);
 
-	switch (this->shapeLabel)
-	{
-	case 0:
+	//if(this->objShape);
+	//else
+
+
+		switch (this->shapeLabel)
+		{
+		case 0:
 		// If it is a rectangle
-		matchRate = 1-abs(1-likelihood) ;
-		break;
-	case 1:
+			matchRate =l ;
+			break;
+		case 1:
 		// If it is a circle
-	   matchRate = 1-abs(1-likelihood);
-	    
-		break;
-	case 2:
-		// If it is a triangle
-		matchRate = 1-abs(1-likelihood);
-		break;
-	default:
-		break;
+		   matchRate =l;
+
+			break;
+		case 2:
+			// If it is a triangle
+			matchRate=l;
+			break;
+		default:
+			//matchRate=0.7;
+			break;
+		}
+	}
+	else
+	{//if(this->objShape);
+	//else
+		this->targetBar->setPositionX(0);
+		matchRate=0;	 
 	}
 }
 
